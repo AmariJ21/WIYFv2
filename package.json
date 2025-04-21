@@ -1,0 +1,9 @@
+{
+  "name": "recipe-search-app",
+  "version": "1.0.0",
+  "description": "Recipe search application using Spoonacular API",
+  "main": "index.js",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+} 
