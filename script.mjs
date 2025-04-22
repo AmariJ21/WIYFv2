@@ -1,7 +1,7 @@
 const ingredientsInput = document.getElementById("ingredients");
 const searchButton = document.getElementById("search-button");
 const recipesContainer = document.getElementById("recipes");
-const titleDiv = document.getElementById("title");
+const loadingSpinner = document.getElementById("loading-spinner");
 
 searchButton.addEventListener("click", async () => {
   const ingredients = ingredientsInput.value.trim();
@@ -11,6 +11,9 @@ searchButton.addEventListener("click", async () => {
   }
 
   try {
+    // Show loading spinner
+    if (loadingSpinner) loadingSpinner.style.display = "block";
+    
     const response = await fetch('/.netlify/functions/recipe-search', {
       method: 'POST',
       headers: {
@@ -25,6 +28,9 @@ searchButton.addEventListener("click", async () => {
   } catch (error) {
     console.error(error);
     alert("An error occurred. Please try again later.");
+  } finally {
+    // Hide loading spinner
+    if (loadingSpinner) loadingSpinner.style.display = "none";
   }
 });
 
@@ -45,20 +51,15 @@ async function fetchRecipeDetails(recipeId) {
 }
 
 async function displayRecipes(recipes) {
-  if (titleDiv) titleDiv.setAttribute("hidden", true);
-  else console.warn("Warning: Element with ID 'title' not found.");
-
   recipesContainer.innerHTML = ""; // Clear previous results
 
   for (const recipe of recipes) {
-    const sourceUrl = await fetchRecipeDetails(recipe.id); // Fetch correct recipe source
-
     const recipeElement = document.createElement("div");
-    recipeElement.classList.add("recipe");
+    recipeElement.classList.add("recipe-card");
 
     recipeElement.innerHTML = `
-      <h3><a href="${sourceUrl}" target="_blank">${recipe.title}</a></h3>
-      <a href="${sourceUrl}" target="_blank">
+      <h3><a href="${recipe.sourceUrl}" target="_blank">${recipe.title}</a></h3>
+      <a href="${recipe.sourceUrl}" target="_blank">
         <img src="${recipe.image}" alt="${recipe.title}">
       </a>
       <p>Used Ingredients: ${recipe.usedIngredients.map(ingredient => ingredient.name).join(", ")}</p>
