@@ -4,13 +4,15 @@
   "description": "Recipe search application using Spoonacular API",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'No build step required for static site'",
-    "start": "echo 'No start script required for static site'"
+    "build": "echo 'Building static site'",
+    "prebuild": "npm install",
+    "start": "echo 'Starting static site'"
   },
   "dependencies": {
     "node-fetch": "^2.6.7"
   },
   "engines": {
     "node": ">=14.0.0"
-  }
+  },
+  "private": true
 } 
