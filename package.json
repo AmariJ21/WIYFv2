@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "description": "Recipe search application using Spoonacular API",
   "main": "index.js",
+  "scripts": {
+    "build": "echo 'No build step required for static site'",
+    "start": "echo 'No start script required for static site'"
+  },
   "dependencies": {
     "node-fetch": "^2.6.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 } 
