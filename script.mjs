@@ -5,13 +5,22 @@ const loadingSpinner = document.getElementById("loading-spinner");
 
 searchButton.addEventListener("click", async () => {
   const ingredients = ingredientsInput.value.trim();
+  
+  // Scroll to recipes section when search is initiated
+  const recipesSection = document.getElementById("recipes-container");
+  if (recipesSection) {
+    recipesSection.scrollIntoView({ 
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
   if (!ingredients) {
     alert("Please enter ingredients!");
     return;
   }
 
   try {
-    // Show loading spinner
     if (loadingSpinner) loadingSpinner.style.display = "block";
     
     const response = await fetch('/.netlify/functions/recipe-search', {
@@ -29,7 +38,6 @@ searchButton.addEventListener("click", async () => {
     console.error(error);
     alert("An error occurred. Please try again later.");
   } finally {
-    // Hide loading spinner
     if (loadingSpinner) loadingSpinner.style.display = "none";
   }
 });
@@ -50,7 +58,7 @@ async function fetchRecipeDetails(recipeId) {
   }
 }
 
-async function displayRecipes(recipes) {
+function displayRecipes(recipes) {
   recipesContainer.innerHTML = ""; // Clear previous results
 
   for (const recipe of recipes) {
